@@ -1,0 +1,19 @@
+@import "../_main/constants";
+
+.date-today {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  width: 100%;
+  padding: 15px 0 0;
+
+  &__text {
+    font-weight: normal;
+    color: rgba($main-color, 0.5);
+  }
+
+  &__text:hover {
+    color: rgba($main-color, 0.75);
+  }
+}

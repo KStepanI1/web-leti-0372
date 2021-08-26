@@ -1,0 +1,18 @@
+@import "../_main/constants";
+
+.main-page {
+  max-width: 1920px;
+  min-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  &__content {
+    display: grid;
+    position: relative;
+    padding: 30px 15%;
+    justify-items: center;
+
+    .near-timetable {
+      margin: 0 150px;
+    }
+  }
+}

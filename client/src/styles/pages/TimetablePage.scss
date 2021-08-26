@@ -1,0 +1,90 @@
+@import "../_main/constants";
+
+.timetable-page {
+  max-width: 1920px;
+  min-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+
+  &__content {
+    padding: 30px 15%;
+
+    .timetable-page__title-switch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .timetable-page__title {
+        .week-type {
+          color: rgba($white, 1);
+          background-color: rgba($main-color, 1);
+          padding: 3px;
+          margin: 0 7px;
+        }
+      }
+
+      .switch-btn {
+        margin: 0 10%;
+      }
+
+      .switch-btn h3 {
+        margin: 0;
+      }
+    }
+  }
+
+  &__timetable {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+    .day-timetable {
+      margin: 50px 45px;
+    }
+  }
+}
+
+.toggle-btn {
+  display: flex;
+  margin: 0 10%;
+  align-items: center;
+
+  &__first, &__second {
+    background-color: $white;
+    min-width: 100px;
+    height: 40px;
+    border: 1px solid rgba($main-color, 0.25);
+    -moz-transition: .4s;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  &__first h3, &__second h3 {
+    margin: 3px;
+    color: rgba($main-color, 0.75)
+  }
+
+  &__first {
+    border-top-left-radius: 22px;
+    border-bottom-left-radius: 22px;
+  }
+
+  &__second {
+    border-top-right-radius: 22px;
+    border-bottom-right-radius: 22px;
+  }
+
+  &__first:hover, &__second:hover {
+    background-color: rgba($white, 0.15);
+  }
+
+  .active {
+    -moz-transition: .4s;
+    -webkit-transition: .4s;
+    transition: .4s;
+    background-color: rgba($main-color, 1);
+    h3 {
+      color: rgba($white, 1);
+    }
+  }
+}
