@@ -10,7 +10,7 @@ export class SubjectController {
 
     public async getAllSubjects(req, res) {
         const subjects = await pool.query('SELECT * FROM shelp_subject');
-        res.send(subjects.rows[0]);
+        res.send(subjects.rows);
     }
 
 }

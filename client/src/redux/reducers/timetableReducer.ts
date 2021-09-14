@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { TimetableSubject } from "../../components/organisms/DayTimetable";
+import { TimetableSubjectType } from "../../components/organisms/DayTimetable";
 import { getEvenTimetable, getEvenTimetableFor, getOddTimetable, getOddTimetableFor } from "../api/timetable";
 
 const UPDATE_ALL_TIMETABLE = "UPDATE_ALL_TIMETABLE";
@@ -7,10 +7,10 @@ const UPDATE_NEAR_TIMETABLE = "UPDATE_NEAR_TIMETABLE";
 
 interface TimetableReducerActionType {
     type: typeof UPDATE_ALL_TIMETABLE | typeof UPDATE_NEAR_TIMETABLE;
-    oddTimetable: TimetableSubject[];
-    evenTimetable: TimetableSubject[];
-    todayTimetable: TimetableSubject[];
-    tomorrowTimetable: TimetableSubject[];
+    oddTimetable: TimetableSubjectType[];
+    evenTimetable: TimetableSubjectType[];
+    todayTimetable: TimetableSubjectType[];
+    tomorrowTimetable: TimetableSubjectType[];
 };
 
 export const timetableReducer = (state = {oddTimetable: null, evenTimetable: null}, action: TimetableReducerActionType) => {
@@ -32,25 +32,27 @@ export const timetableReducer = (state = {oddTimetable: null, evenTimetable: nul
     };
 };
 
-const updateAllTimetableActionCreator = (oddTimetable: TimetableSubject[], evenTimetable: TimetableSubject[]) => {
+const updateAllTimetableActionCreator = (oddTimetable: TimetableSubjectType[], evenTimetable: TimetableSubjectType[]) => {
     return {type: UPDATE_ALL_TIMETABLE, oddTimetable: oddTimetable, evenTimetable: evenTimetable};
 }
 
-const updateNearTimetableActionCreator = (todayTimetable: TimetableSubject[], tomorrowTimetable: TimetableSubject[]) => {
+const updateNearTimetableActionCreator = (todayTimetable: TimetableSubjectType[], tomorrowTimetable: TimetableSubjectType[]) => {
     return {type: UPDATE_NEAR_TIMETABLE, todayTimetable: todayTimetable, tomorrowTimetable: tomorrowTimetable};
 }
 
 export const updateAllTimetableThunk = () => (dispatch: Dispatch) => {
     const evenTimetable = getEvenTimetable();
     const oddTimetable = getOddTimetable();
-    Promise.all([evenTimetable, oddTimetable])
-        .then(response => dispatch(updateAllTimetableActionCreator(response[0].data, response[1].data)))
+    Promise.all([oddTimetable, evenTimetable])
+        .then(response => {
+            dispatch(updateAllTimetableActionCreator(response[0].data, response[1].data))
+        })
         .catch(error => console.log(error));
 };
 
 export const updateNearTimetableThunk = (currentWeek: number) => (dispatch: Dispatch) => {
     const todayDayNumber = new Date().getDay();
-    const tomorrowDayNumber = (new Date(+(new Date()) + 86400000)).getDay();
+    const tomorrowDayNumber = (new Date(+(new Date()) + 86400000)).getDay()
     let todayTimetable = null;
     let tomorrowTimetable = null;
     if (currentWeek === 1 && tomorrowDayNumber !== 1) {
@@ -65,12 +67,12 @@ export const updateNearTimetableThunk = (currentWeek: number) => (dispatch: Disp
     } else if (currentWeek === 2 && tomorrowDayNumber === 1) {
         todayTimetable = getEvenTimetableFor(todayDayNumber);
         tomorrowTimetable = getOddTimetableFor(tomorrowDayNumber);
-    } else {
-        console.log('Ошибочка');
     }
     if (todayTimetable && tomorrowTimetable) {
         Promise.all([todayTimetable, tomorrowTimetable])
-            .then(response => dispatch(updateNearTimetableActionCreator(response[0].data, response[1].data)))
+            .then(response => {
+                dispatch(updateNearTimetableActionCreator(response[0].data, response[1].data))
+            })
             .catch(error => console.log(error));
     } else {
         return;

@@ -1,0 +1,56 @@
+
+.teacher-card {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 5px 15px var(--box-shadow-color);
+  border-radius: 22px;
+  padding: 20px;
+  background-color: var(--background-secondary-color);
+  .teacher__fullname {
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 15px;
+  }
+
+  .teacher__subject-info {
+    display: flex;
+    align-items: flex-start;
+    justify-items: center;
+    margin-bottom: 10px;
+
+    .subject-n-type {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .teacher__subject {
+      margin: 0 10px;
+    }
+
+    .teacher__types {
+      display: flex;
+      .type-container {
+        margin: 0 5px 5px;
+      }
+      .type__name {
+        width: 100%;
+        padding: 3px;
+        margin: 2px 5px;
+        text-align: center;
+      }
+    }
+
+    .lec {background-color: $lec;}
+    .prac {background-color: $prac;}
+    .lab {background-color: $lab;}
+    .seminar {background-color: $seminar;}
+  }
+
+  .teacher__email-info {
+    display: flex;
+
+    .teacher__email {
+      margin: auto 10px;
+    }
+  }
+}

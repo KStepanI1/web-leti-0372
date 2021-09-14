@@ -1,6 +1,9 @@
-$main-color: #352D4D;
 
-$white: rgba(#FDCBAE, 0.07);
+
+$white: desaturate(#FDCBAE, 0.07);
+$main-color: #352D4D;
+$white: desaturate(#FDCBAE, 0.07);
+$second-white: #fef7f3;
 $red: #F44336;
 $gray: #928A97;
 

@@ -1,0 +1,33 @@
+
+
+.day-homework {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 22px;
+  width: 100%;
+  min-height: 285px;
+
+  box-shadow: 0 5px 15px var(--box-shadow-color);
+  max-width: 520px;
+  background-color: var(--background-secondary-color);
+
+  .day-homework__title {
+    .day-name {
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 17px;
+    }
+    .date-name {
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 15px;
+      color: var(--medium-text-color);
+    }
+  }
+
+
+}

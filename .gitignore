@@ -4,13 +4,14 @@
 /node_modules/
 /.pnp
 .pnp.js
-/.env
+/.env/
 /build/
 /.idea/
 client/build
 client/node_modules
 server/node_modules
-
+server/data
+server/django_project/shelp/migrations
 
 
 

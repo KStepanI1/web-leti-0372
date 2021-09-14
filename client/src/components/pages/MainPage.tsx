@@ -6,19 +6,18 @@ import {useDispatch, useSelector } from 'react-redux';
 import { StateType } from '../../redux/store';
 import { updateNearTimetableThunk } from '../../redux/reducers/timetableReducer';
 
+import { motion } from 'framer-motion';
+import { SubjectModal } from '../organisms/SubjectModal';
+
 const MainPage = (): JSX.Element => {
     const dispatch = useDispatch();
     const todayTimetable = useSelector((state: StateType) => state.timetable.todayTimetable);
     const tomorrowTimetable = useSelector((state: StateType) => state.timetable.tomorrowTimetable);
     const currentWeek = useSelector((state: StateType) => state.date.currentWeek);
 
-    const nearTimetableUpdate = useCallback(() => {
-        dispatch(updateNearTimetableThunk(1));
-    }, [dispatch]);
-
     useEffect(() => {
-        nearTimetableUpdate();
-    }, [nearTimetableUpdate]);
+        dispatch(updateNearTimetableThunk(currentWeek));
+    }, [currentWeek]);
 
     const dateTomorrow = new Date( +(new Date()) + 86400000);
     const dateToday = new Date();
@@ -81,14 +80,20 @@ const MainPage = (): JSX.Element => {
     const weekName = getWeekName(currentWeek);
 
 
+    // MODAL
+    const subjectModal = useSelector((state: StateType) => state.subjectModal);
+
     return (
         <>
-            <div className={'main-page'}>
+            <div className={`main-page`}>
                 <Header/>
                 <main className={'main-page__content'}>
                     <NearTimetable todayTimetable={todayTimetable} tomorrowTimetable={tomorrowTimetable}
-                                   dateNameToday={dateNameToday} dateNameTomorrow={dateNameTomorrow}/>
-
+                                       dateNameToday={dateNameToday} dateNameTomorrow={dateNameTomorrow}/>
+                    {subjectModal.isModalOpen && <SubjectModal subject={subjectModal.timetableSubject}
+                                                               zoomLink={subjectModal.zoomLink}
+                                                               teachers={subjectModal.teachers}
+                                                               dayName={subjectModal.dayName || ''}/>}
                 </main>
                 <Footer/>
             </div>

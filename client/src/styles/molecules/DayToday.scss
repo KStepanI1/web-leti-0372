@@ -1,5 +1,68 @@
-@import "../_main/constants";
 
+.date-today {
+  display: flex;
+  justify-content: center;
+  margin: 15px auto 0;
+  width: 100%;
+  .date-today__text {
+    color: var(--medium-text-color);
+    font-size: 12px;
+    font-weight: normal;
+    transition: .4s;
+  }
+
+  @media (min-width: 510px) {
+    .date-today__text {
+      font-size: 14px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    margin: 30px auto 0;
+    .date-today__text {
+      font-size: 16px;
+    }
+
+    &:hover {
+      .date-today__text {
+        color: var(--text-color);
+      }
+    }
+  }
+}
+
+.date-today-preloader {
+  display: flex;
+  justify-content: center;
+  margin: 15px auto 0;
+  height: 28px;
+  width: 292px;
+  background: linear-gradient(90deg, #e7e7e7 20%, #a5a5a5 50%, #e7e7e7 80%);
+  background-size: 300% 300%;
+  border-radius: 6px;
+  animation: 10s rotate linear infinite;
+
+  @media (min-width: 650px) {
+    margin: 30px auto 0;
+    width: 370px;
+  }
+}
+
+
+@keyframes rotate {
+  from {
+    background-position: 0;
+  }
+  50% {
+    background-position: 100%;
+  }
+  to {
+    background-position: 0;
+  }
+}
+
+
+/*
 .date-today {
   display: flex;
   margin-left: auto;
@@ -17,3 +80,28 @@
     color: rgba($main-color, 0.75);
   }
 }
+
+.date-today-preloader {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto 15px;
+  height: 30px;
+  width: 375px;
+  background: linear-gradient(90deg, rgba($main-color, 0.03) 20%, rgba($main-color, 0.15) 50%, rgba($main-color, 0.05) 80%);
+  background-size: 300% 300%;
+  border-radius: 6px;
+  animation: 10s rotate linear infinite;
+}
+
+
+@keyframes rotate {
+  from {
+    background-position: 0;
+  }
+  50% {
+    background-position: 100%;
+  }
+  to {
+    background-position: 0;
+  }
+}*/

@@ -1,79 +1,142 @@
-@import "../_main/constants";
+
 
 .day-timetable {
   display: flex;
-  position: relative;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
   box-sizing: border-box;
-  padding: 30px;
-  background-color: $white;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+  padding: 20px;
   border-radius: 22px;
-  height: 450px;
-  width: 500px;
+  width: 100%;
+  min-height: 285px;
 
-  &__lessons {
-    border-collapse: collapse;
+  box-shadow: 0 5px 15px var(--box-shadow-color);
+  max-width: 520px;
+  background-color: var(--background-secondary-color);
+
+  .day-timetable__title {
+    .day-name {
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 17px;
+    }
+    .date-name {
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 15px;
+      color: var(--medium-text-color);
+    }
   }
-
-  &__title {
-    margin: 10px 0;
-    letter-spacing: 0.75px;
+  
+  &__container {
+    table-layout: fixed;
+    display: block;
+    margin-top: 17px;
+    width: 100%;
   }
 
   &__no-table {
-    width: 100%;
+    position: absolute;
+    top: calc(50% - 7px);
     text-align: center;
-    margin-bottom: auto;
-    margin-top: auto;
-    color: rgba($main-color, 0.5);
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--medium-text-color);
+    width: calc(100% - 40px);
   }
 
-  &__subject {
-    .time {
-      font-size: 20px;
-    }
+  &__timeout {
+    width: 100%;
+    height: 28px;
+    font-size: 12px;
+    line-height: 15px;
 
-    .name {
-      width: 100%;
-    }
-
-    .number {
+    .timeout__text {
+      height: 100%;
       text-align: center;
+      color: var(--slightly-text-color);
+    }
+  }
+
+  @media (min-width: 650px) {
+    padding: 30px;
+    .day-timetable__container {
+        margin-top: 25px;
     }
 
-    .subject__field {
-      padding: 10px 10px;
-    }
-
-    .subject__type {
-      display: flex;
-      align-items: center;
-      border-radius: 25%;
-      color: #ffffff;
-      height: 25px;
-      .type-name {
-        width: 100%;
-        padding: 3px;
-        margin: 2px 5px;
-        text-align: center;
+    .day-timetable__title {
+      .day-name {
+        font-size: 20px;
+        line-height: 28px;
+      }
+      .date-name {
+        font-size: 18px;
+        line-height: 24px;
       }
     }
 
-    .lec {background-color: $lec;}
-    .prac {background-color: $prac;}
-    .lab {background-color: $lab;}
-    .seminar {background-color: $seminar;}
-
-    &:hover {
-      background-color: rgba($main-color, 0.05);
-      border-left: 1px solid $main-color;
+    &__no-table {
+      width: calc(100% - 60px);
     }
 
-    .audience_number {
-      text-align: center;
+    .day-timetable__timeout {
+      height: 44px;
+      font-size: 16px;
+      line-height: 20px;
     }
+  }
+
+  @media (min-width: 1000px) {
+
+  }
+}
+
+
+/*
+.day-timetable {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  flex-direction: column;
+  background-color: $white;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+  border-radius: 22px;
+  box-sizing: border-box;
+  padding-top: 30px;
+  height: 100%;
+  width: 100%;
+  min-width: 280px;
+  max-width: 520px;
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 90%;
+    margin: 0 auto 30px;
+    &::-webkit-scrollbar { width: 0; }
+    & { -ms-overflow-style: none; }
+    & { overflow: -moz-scrollbars-none; }
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  &__no-table {
+    position: absolute;
+    text-align: center;
+    top: calc(50% - 6px);
+    left: calc(50% - 99px);
+    color: rgba($main-color, 0.5);
+  }
+
+  &__lessons {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .day-timetable__title {
+    padding: 10px 30px;
+    margin: 0 0 25px;
   }
 
   &__thead {
@@ -85,10 +148,35 @@
 
   .timeout__text {
     text-align: center;
-    padding: 10px 0;
+    padding: 11px 0;
     color: rgba($main-color, 0.25);
+    width: 100%;
   }
 
 }
 
+@media (max-width: 586px) {
+    .day-timetable {
+      min-width: 300px;
+      width: 90%;
+
+
+      .day-timetable__container {
+        margin: 0 0 20px;
+        padding: 10px;
+      }
+
+      .day-timetable__title {
+        font-size: 16px;
+      }
+
+      &__thead {
+        td .thead__field {
+          text-align: center;
+        }
+      }
+    }
+}
+
+*/
 

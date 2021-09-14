@@ -1,16 +1,23 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getNormalLessonType } from '../../helpers/helpers';
+import { useInnerWidth } from '../../helpers/useInnerWidth';
+import { TeacherType } from '../../redux/reducers/teacherReducer';
+import { StateType } from '../../redux/store';
 import { TimetablePreloader } from "../atoms/TimetablePreloader";
+import { TimetableSubject } from '../molecules/TimetableSubject';
+import { TimetableSubjectMobile } from '../molecules/TimetableSubjectMobile';
 
 export interface DayTimetableProps {
     customName: string | null;
-    timetable: TimetableSubject[] | null;
+    timetable: TimetableSubjectType[] | null;
     dayNumber: number;
     dateName: string | null;
 };
 
-export interface TimetableSubject {
+export interface TimetableSubjectType {
     id: number;
     weekday_id: number;
     audience_number: string | null;
@@ -18,12 +25,14 @@ export interface TimetableSubject {
     subject_id: number;
     type: string;
     week_parity: string;
+    is_remotely: boolean;
     name: string;
+    zoomLinks: any;
     created_at: Date;
     updated_at: Date;
 }
 
-export interface TimetableSubjectProcessed extends TimetableSubject {
+export interface TimetableSubjectProcessed extends TimetableSubjectType {
     dayName: string;
     typeRus: string;
     time: { timeStart: string; timeEnd: string; };
@@ -31,6 +40,8 @@ export interface TimetableSubjectProcessed extends TimetableSubject {
 
 export const DayTimetable = ({timetable, customName, dayNumber, dateName}: DayTimetableProps): JSX.Element => {
     const [timetableProcessed, setTimetableProcessed] = useState<TimetableSubjectProcessed[] | null>(null);
+    const allTeachers = useSelector((state: StateType) => state.teacher.allTeachers);
+    const currentInnerWidth = useInnerWidth();
 
     const getNormalDay = (dayNumber: number) => {
         switch(dayNumber) {
@@ -45,15 +56,7 @@ export const DayTimetable = ({timetable, customName, dayNumber, dateName}: DayTi
         }
     }
 
-    const getNormalLessonType = (type: string) => {
-        switch(type) {
-            case "lec": return 'Лек';
-            case "prac": return "Пр";
-            case "seminar": return "Сем";
-            case "lab": return "Лаб";
-            default: return '';
-        }
-    }
+
 
     const getSubjectTime = (lessonNumber: number) => {
         switch(lessonNumber) {
@@ -70,7 +73,7 @@ export const DayTimetable = ({timetable, customName, dayNumber, dateName}: DayTi
 
 
     useEffect(() => {
-        function timetableProcess (timetable: TimetableSubject[] | null) {
+        function timetableProcess (timetable: TimetableSubjectType[] | null) {
             if (!timetable) { return timetable; }
             else {
                 return timetable.map(async subject =>  {
@@ -104,11 +107,13 @@ export const DayTimetable = ({timetable, customName, dayNumber, dateName}: DayTi
                     subject_id: 0,
                     name: '',
                     weekday_id: 0,
+                    is_remotely: false,
                     audience_number: '',
                     dayName: getNormalDay(dayNumber % 6),
                     type: '',
                     week_parity: '',
                     typeRus: '',
+                    zoomLinks: [],
                     time: {timeStart: '', timeEnd: ''},
                     created_at: new Date(),
                     updated_at: new Date()
@@ -132,52 +137,74 @@ export const DayTimetable = ({timetable, customName, dayNumber, dateName}: DayTi
 
     const dayName = getNormalDay(dayNumber);
 
-    return <div className={'day-timetable'}>
-        <h2 className={'day-timetable__title'}>
-            {customName
-                ? (dateName ? dayName + " (" + customName + "), " + dateName : dayName + " (" + customName + ")")
-                : (dateName ? dayName + ",   " + dateName : dayName)}
-        </h2>
-        {timetable && timetableProcessed ?
-            timetable.length === 0
-            ? <div className={'day-timetable__no-table'}>
-                В этот день занятий нет
+    return (
+        <div className={'day-timetable'}>
+            <div className={'day-timetable__title'}>
+                {customName
+                    ? (dateName
+                        ? <>
+                            <h2 className={'day-name'}>{dayName + " (" + customName + ")"}</h2>
+                            <div className={'date-name'}>{dateName}</div>
+                        </>
+                        : <h2 className={'day-name'}>{dayName + " (" + customName + ")"}</h2>)
+                    : <h2 className={'day-name'}>{dateName ? dayName + ",   " + dateName : dayName}</h2>
+                }
             </div>
-            : <table className={'day-timetable__lessons'}>
-                <thead>
-                <tr className={'day-timetable__thead'}>
-                    <td></td>
-                    <td><h3 className={'thead__field'}>№</h3></td>
-                    <td><h3 className={'thead__field'}>Название</h3></td>
-                    <td><h3 className={'thead__field'}>Аудитория</h3></td>
-                    <td><h3 className={'thead__field'}>Тип</h3></td>
-                </tr>
-                </thead>
-                <tbody>
-                {timetableProcessed.map((subject, i) => {
-                        if (subject.name === '') {
-                            return <tr key={`emptylesson_${subject.lesson_number}`} className={'day-timetable__timeout'}>
-                                <td className={'timeout__field'} colSpan={4}>
-                                    <div className={'timeout__text'}>Нет пары</div>
-                                </td>
-                            </tr>
-                        } else {
-                            return <tr key={`lesson_${subject.lesson_number}`} className={'day-timetable__subject'}>
-                                <td className={'subject__field time'}>{subject.time.timeStart}</td>
-                                <td className={'subject__filed number'}>{subject.lesson_number}</td>
-                                <td className={'subject__field name'}>{subject.name}</td>
-                                <td className={'subject__field audience_number'}>{subject.audience_number || ''}</td>
-                                <td className={'subject__field'}>
-                                    <div className={`subject__type ${subject.type}`}>
-                                        <h3 className={'type-name'}>{subject.typeRus}</h3>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    })}
-                </tbody>
-            </table>
-            : <TimetablePreloader />
-        }
-    </div>;
+            <div className={'day-timetable__container'}>
+                {timetable && timetableProcessed ?
+                    timetable.length === 0
+                        ? <div className={'day-timetable__no-table'}>
+                            В этот день занятий нет
+                        </div>
+                        : <table className={'day-timetable__lessons'}>
+                            <tbody>
+                            {timetableProcessed.map((subject, i) => {
+                                if (subject.name === '') {
+                                    return <tr key={`emptylesson_${subject.lesson_number}`}
+                                               className={'day-timetable__timeout'}>
+                                        <td className={'timeout__field'} colSpan={5}>
+                                            <div className={'timeout__text'}>Нет пары</div>
+                                        </td>
+                                    </tr>
+                                } else {
+                                    let subjectTeachers: TeacherType[] = [];
+                                    if (allTeachers) {
+                                        allTeachers.forEach(teacher => {
+                                            if (teacher.subject_id === subject.subject_id &&
+                                                teacher.type === subject.type) {
+                                                subjectTeachers.push(teacher);
+                                            }
+                                        });
+                                    }
+                                    if (subjectTeachers === undefined || !subjectTeachers) {
+                                        subjectTeachers = [{
+                                            id: 0,
+                                            last_name: '',
+                                            first_name: '',
+                                            middle_name: '',
+                                            type: '',
+                                            subject_id: 0,
+                                            email: '',
+                                            created_at: new Date(),
+                                            updated_at: new Date()
+                                        }]
+                                    }
+                                    return currentInnerWidth >= 650
+                                        ? <TimetableSubject subject={subject}
+                                                            teachers={subjectTeachers}
+                                                            key={`lesson_${subject.lesson_number}`}
+                                                            dayName={dayName}/>
+
+                                        : <TimetableSubjectMobile subject={subject}
+                                                                  teachers={subjectTeachers}
+                                                                  key={`lesson_${subject.lesson_number}`}
+                                                                  dayName={dayName}/>;
+                                }
+                            })}
+                            </tbody>
+                        </table>
+                    : <TimetablePreloader/>
+                }
+            </div>
+        </div>);
 };

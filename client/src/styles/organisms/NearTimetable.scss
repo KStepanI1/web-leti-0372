@@ -3,19 +3,117 @@
 .near-timetable {
   display: inline-block;
   width: 100%;
-  border-radius: 22px;
-  padding: 30px;
+  margin-top: 40px;
+  max-width: 1300px;
 
-  &__content {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-    justify-items: center;
-    row-gap: 20px;
-    column-gap: 30px;
+  .near-timetable__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    margin-bottom: 15px;
+  }
+
+  .near-timetable__content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 
     .day-timetable {
-      margin: 20px 45px;
+      margin: 15px 0;
+      width: 90%;
+      max-height: 285px;
+    }
+  }
+
+  @media (min-width: 410px) {
+    .near-timetable__content {
+      .day-timetable {
+        width: 80%;
+      }
+    }
+  }
+
+  @media (min-width: 510px) {
+    .near-timetable__content {
+      .day-timetable {
+        width: 70%;
+      }
+    }
+  }
+
+  @media (min-width: 650px) {
+    .near-timetable__title {
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    .near-timetable__content {
+      .day-timetable {
+        width: 80%;
+        min-height: 445px;
+        max-height: 445px;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    .near-timetable__title {
+      font-size: 20px;
+      line-height: 26px;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .near-timetable__content {
+      .day-timetable {
+        width: 90%;
+        margin-left: 30px;
+        margin-right: 30px;
+      }
+    }
+  }
+
+  @media (min-width: 1300px) {
+    .near-timetable__title {
+      font-size: 24px;
+      justify-content: flex-start;
+      margin: 15px 15%;
+      line-height: 30px;
+      padding-left: 30px;
     }
   }
 }
+
+/*
+
+.near-timetable {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 22px;
+
+  &__content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .day-timetable {
+      margin: 50px 3%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .near-timetable {
+    padding: 0;
+
+    .day-timetable {
+      margin: 35px 0;
+      width: 80%;
+    }
+  }
+}*/

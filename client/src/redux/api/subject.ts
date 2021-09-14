@@ -9,3 +9,8 @@ export const getSubjectById = async (id: number) => {
     const response = await instance.get(`/${id}`);
     return response;
 }
+
+export const getAllSubjects = async () => {
+    const response = await instance.get(`/all`);
+    return response;
+}

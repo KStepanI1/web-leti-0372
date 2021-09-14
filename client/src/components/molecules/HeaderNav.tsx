@@ -1,5 +1,8 @@
-import React, {FC} from 'react'
+import React, {FC, useContext, useEffect} from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { StateType } from '../../redux/store';
+import { SwitchButton } from '../atoms/SwitchButton';
 
 interface NavItem {
     link: string;
@@ -11,8 +14,22 @@ interface HeaderNavPropsType {
 }
 
 const HeaderNav: FC<HeaderNavPropsType> = (props: HeaderNavPropsType): JSX.Element => {
+    const theme = localStorage.getItem("theme");
+    let isChecked = theme === "dark";
+
+    const switchTheme = (event: any) => {
+        const checked = event.target.checked;
+
+        if (checked) {
+            localStorage.setItem("theme", "dark");
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            localStorage.setItem("theme", "light");
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+    }
+
     return (
-        <>
             <div className={`header__nav`}>
                 <ul className={'nav__items'}>
                     <NavLink className={'nav__link-item'} to={'/'} exact
@@ -32,8 +49,9 @@ const HeaderNav: FC<HeaderNavPropsType> = (props: HeaderNavPropsType): JSX.Eleme
                         );
                     })}
                 </ul>
+
+                <SwitchButton text={'Темная тема'} callback={switchTheme} isInitialChecked={theme === "dark"}/>
             </div>
-        </>
     );
 };
 

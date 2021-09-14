@@ -4,8 +4,8 @@ import { getDateFromEtu } from "../api/date";
 const UPDATE_DATE = "UPDATE_DATE";
 
 const initialState = {
-    currentWeek: 1,
-    dateFromEtu: ''
+    currentWeek: null,
+    dateFromEtu: null
 };
 
 interface DateActionType {
@@ -34,7 +34,7 @@ const updateDateActionCreator = (dateFromEtu: any) => ({type: UPDATE_DATE, dateF
 export const updateDateThunk = () => (dispatch: Dispatch) => {
 
     const dateFromEtu = getDateFromEtu();
-    console.log(dateFromEtu);
+
     Promise.all([dateFromEtu]).then(response => {
         dispatch(updateDateActionCreator(response[0].data))
     });

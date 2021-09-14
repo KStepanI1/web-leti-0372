@@ -1,89 +1,81 @@
 import {pool} from "../db";
 
-export class TimetableController {
+class TimetableController {
 
-    public async getEvenWeekTimetableForDay(req, res) {
-        const dayNumber = req.params.dayNumber;
-        let timetable = await pool.query(
-            'SELECT * FROM shelp_timetable WHERE even_week=$1 AND weekday_id=$2',
-            [true, dayNumber]);
-        console.log(timetable);
-        if (timetable.rows.length > 0) {
-            const timetableProcessed = await timetable.rows.map(async subject => {
-                const subjectName = await pool.query('SELECT (name) FROM shelp_subject WHERE id=$1', [subject.subject_id]);
-                return {
-                    ...subject,
-                    ...subjectName.rows[0]
-                }
-            })
-            Promise.all(timetableProcessed).then(response => {
-                res.send(response);
-            });
-        } else {
-            res.send(timetable.rows);
-        }
-    }
-
-    public async getOddWeekTimetableForDay(req, res) {
+    getEvenTimetableForDay = async (req, res) => {
         const dayNumber = req.params.dayNumber;
         const timetable = await pool.query(
-            'SELECT * FROM shelp_timetable WHERE odd_week=$1 AND weekday_id=$2',
-            [true, dayNumber]);
-        if (timetable.rows.length > 0) {
-            const timetableProcessed = await timetable.rows.map(async subject => {
-                const subjectName = await pool.query('SELECT (name) FROM shelp_subject WHERE id=$1', [subject.subject_id]);
-                return {
-                    ...subject,
-                    ...subjectName.rows[0]
-                }
-            })
-            Promise.all(timetableProcessed).then(response => {
-                res.send(response);
-            });
-        } else {
-            res.send(timetable.rows);
+            'SELECT * FROM shelp_timetable WHERE weekday_id=$1 AND even_week=$2',
+            [dayNumber, true]);
+        try {
+            let timetableProcessed = await this.processTimetable(timetable);
+            Promise.all(timetableProcessed)
+                .then((response) => res.send(response))
+                .catch(error => res.send(error.status));
+        } catch(error) {
+            console.error(error);
         }
     }
 
-    public async getEvenWeekTimetable(req, res) {
-        const evenWeekTimetable = await pool.query(
-            'SELECT * FROM shelp_timetable WHERE even_week=$1',
-            [true]);
-        if (evenWeekTimetable.rows.length > 0) {
-            const timetableProcessed = await evenWeekTimetable.rows.map(async subject => {
-                const subjectName = await pool.query('SELECT (name) FROM shelp_subject WHERE id=$1', [subject.subject_id]);
-                return {
-                    ...subject,
-                    ...subjectName.rows[0]
-                }
-            })
-            Promise.all(timetableProcessed).then(response => {
-                res.send(response);
-            });
-        } else {
-            res.send(evenWeekTimetable.rows);
+    getOddTimetableForDay = async (req, res) => {
+        const dayNumber = req.params.dayNumber;
+        const timetable = await pool.query(
+            'SELECT * FROM shelp_timetable WHERE weekday_id=$1 AND odd_week=$2',
+            [dayNumber, true]);
+        try {
+            let timetableProcessed = await this.processTimetable(timetable);
+            Promise.all(timetableProcessed)
+                .then((response) => res.send(response))
+                .catch(error => res.send(error.status));
+        } catch(error) {
+            console.error(error);
         }
     }
 
-    public async getOddWeekTimetable(req, res) {
-        const oddWeekTimetable = await pool.query(
+    getAllOddTimetable = async (req, res) => {
+        const timetable = await pool.query(
             'SELECT * FROM shelp_timetable WHERE odd_week=$1',
             [true]);
-        if (oddWeekTimetable.rows.length > 0) {
-            const timetableProcessed = await oddWeekTimetable.rows.map(async subject => {
-                const subjectName = await pool.query('SELECT (name) FROM shelp_subject WHERE id=$1', [subject.subject_id]);
-                return {
-                    ...subject,
-                    ...subjectName.rows[0]
-                }
-            })
-            Promise.all(timetableProcessed).then(response => {
-                res.send(response);
-            });
-        } else {
-            res.send(oddWeekTimetable.rows);
+        try {
+            let timetableProcessed = await this.processTimetable(timetable);
+            Promise.all(timetableProcessed)
+                .then((response) => res.send(response))
+                .catch(error => res.send(error.status));
+        } catch(error) {
+            console.error(error);
         }
     }
 
+    getAllEvenTimetable = async (req, res) => {
+        const timetable = await pool.query(
+            'SELECT * FROM shelp_timetable WHERE even_week=$1',
+            [true]);
+        try {
+            let timetableProcessed = await this.processTimetable(timetable);
+            Promise.all(timetableProcessed)
+                .then((response) => res.send(response))
+                .catch(error => res.send(error.status));
+        } catch(error) {
+            console.error(error);
+        }
+    }
+
+    async processTimetable(timetable: any) {
+        return await timetable.rows.map(async tSubject => {
+            const subjectName = await pool.query(
+                'SELECT (name) FROM shelp_subject WHERE id=$1',
+                [tSubject.subject_id]);
+            const zoomLinks = await pool.query(
+                'SELECT * FROM shelp_zoomlink WHERE subject_id=$1',
+                [tSubject.subject_id]);
+            return {
+                ...tSubject,
+                ...subjectName.rows[0],
+                zoomLinks: zoomLinks.rows
+            }
+        });
+    }
 
 }
+
+export {TimetableController};

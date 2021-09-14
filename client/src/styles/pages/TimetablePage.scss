@@ -1,5 +1,185 @@
-@import "../_main/constants";
 
+.timetable-page {
+  display: flex;
+  flex-direction: column;
+  max-width: 1920px;
+  min-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.timetable-page__content {
+  padding: 20px 0;
+}
+
+.timetable-page__title-switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  .timetable-page__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    height: 22px;
+    margin: 0 5% 15px 5%;
+
+    .week-type {
+      color: var(--active-text-color);
+      background-color: var(--active-background-color);
+      padding: 3px 8px;
+      margin: 0 7px;
+    }
+  }
+}
+
+.toggle-btn {
+  display: flex;
+  width: 100%;
+  margin: 30px 0 20px;
+  align-items: center;
+  justify-content: center;
+
+  &__first, &__second {
+    background-color: var(--bacground-color);
+    min-width: 70px;
+    height: 30px;
+    border: 1px solid var(--slightly-text-color);
+    -moz-transition: .4s;
+    -webkit-transition: .4s;
+    transition: .4s;
+    cursor: pointer;
+  }
+
+  &__first h3, &__second h3 {
+    margin: 3px;
+    font-size: 10px;
+    color: var(--lighter-text-color);
+  }
+
+  &__first {
+    border-top-left-radius: 22px;
+    border-bottom-left-radius: 22px;
+  }
+
+  &__second {
+    border-top-right-radius: 22px;
+    border-bottom-right-radius: 22px;
+  }
+
+  &__first:hover, &__second:hover {
+    background-color: var(--hover-color);
+  }
+
+  .active {
+    -moz-transition: .4s;
+    -webkit-transition: .4s;
+    transition: .4s;
+    background-color: var(--active-background-color);
+
+    h3 {
+      color: var(--active-text-color);
+    }
+  }
+}
+
+.timetable-page__timetable {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1300px;
+  margin: 0 auto;
+
+  .day-timetable {
+    margin: 15px 0;
+    width: 90%;
+  }
+}
+
+@media (min-width: 410px) {
+  .timetable-page__timetable {
+    .day-timetable {
+      width: 80%;
+    }
+  }
+}
+
+@media (min-width: 510px) {
+  .timetable-page__timetable {
+    .day-timetable {
+      width: 70%;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .timetable-page__timetable {
+    .day-timetable {
+      height: 270px;
+    }
+  }
+}
+
+@media (min-width: 650px) {
+  .timetable-page__timetable {
+    .day-timetable {
+      width: 90%;
+      height: 421px;
+    }
+  }
+
+  .timetable-page__title-switch {
+    .timetable-page__title {
+      font-size: 18px;
+      line-height: 24px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .timetable-page__timetable {
+    .day-timetable {
+      margin: 25px 30px;
+    }
+  }
+
+  .timetable-page__title-switch {
+    .timetable-page__title {
+      font-size: 20px;
+      line-height: 26px;
+    }
+  }
+}
+
+@media (min-width: 1300px) {
+  .timetable-page__title-switch {
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    .timetable-page__title {
+      height: auto;
+      font-size: 24px;
+      justify-content: flex-start;
+      margin: 15px 50px 15px 20px;
+      line-height: 30px;
+      padding-left: 30px;
+    }
+
+    .toggle-btn {
+      width: auto;
+      margin: 0 0 0 50px;
+    }
+  }
+}
+
+/*
 .timetable-page {
   max-width: 1920px;
   min-width: 320px;
@@ -7,10 +187,11 @@
   margin-right: auto;
 
   &__content {
-    padding: 30px 15%;
+    padding: 30px 150px;
 
     .timetable-page__title-switch {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
 
@@ -18,17 +199,9 @@
         .week-type {
           color: rgba($white, 1);
           background-color: rgba($main-color, 1);
-          padding: 3px;
+          padding: 3px 8px;
           margin: 0 7px;
         }
-      }
-
-      .switch-btn {
-        margin: 0 10%;
-      }
-
-      .switch-btn h3 {
-        margin: 0;
       }
     }
   }
@@ -39,14 +212,14 @@
     flex-wrap: wrap;
 
     .day-timetable {
-      margin: 50px 45px;
+      margin: 50px 10px;
     }
   }
 }
 
 .toggle-btn {
   display: flex;
-  margin: 0 10%;
+  margin: 20px 10% 20px;
   align-items: center;
 
   &__first, &__second {
@@ -57,6 +230,7 @@
     -moz-transition: .4s;
     -webkit-transition: .4s;
     transition: .4s;
+    cursor: pointer;
   }
 
   &__first h3, &__second h3 {
@@ -88,3 +262,27 @@
     }
   }
 }
+
+
+@media (max-width: 1550px) {
+  .timetable-page__content {
+    padding: 30px 10%;
+  }
+  .timetable-page__timetable {
+    .day-timetable {
+      margin: 25px 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .timetable-page__content {
+    padding: 30px 5%;
+  }
+}
+
+@media (max-width: 475px) {
+  .timetable-page__content {
+    padding: 30px 10px;
+  }
+}*/

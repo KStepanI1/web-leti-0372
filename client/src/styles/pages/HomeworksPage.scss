@@ -1,0 +1,39 @@
+
+.homeworks-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  min-width: 280px;
+  max-width: 1920px;
+}
+
+.homeworks-page__content {
+  padding: 20px 0;
+
+  .homeworks-page__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    height: 22px;
+    margin: 0 5% 15px 5%;
+  }
+
+  .homeworks-page__homeworks-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 1300px;
+    margin: 0 auto;
+
+    .day-homework {
+      width: 90%;
+      margin: 15px 0;
+    }
+  }
+}

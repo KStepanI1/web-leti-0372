@@ -1,29 +1,38 @@
-@import "../_main/constants";
 
-.header__nav {
-  display: flex;
-  align-items: center;
-  .nav__items {
+@media (min-width: 768px) {
+  .header__nav {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin: 0;
-    .nav__link-item {
-      padding: 15px 25px;
-      text-decoration: none;
-      color: rgba($main-color, 0.5);
-      transition: .4s;
+    .nav__items {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+      .nav__link-item {
+        padding: 15px 25px;
+        text-decoration: none;
+        color: var(--medium-text-color);
+        transition: .4s;
+      }
+
+      .nav__link-item_active {
+        color: var(--active-background-color);
+        border-bottom: 4px solid var(--active-background-color);
+        transition: .4s;
+      }
     }
 
-    .nav__link-item_active {
-      color: $main-color;
-      border-bottom: 4px solid $main-color;
-      transition: .4s;
+    .switch-button {
+      position: absolute;
+      right: 20px;
+      top: 15px;
     }
+  }
+
+  .nav__item {
+    list-style: none;
   }
 }
 
-.nav__item {
-  list-style: none;
-}
 
